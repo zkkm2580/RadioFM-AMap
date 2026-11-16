@@ -33,7 +33,7 @@ jobs:
     - name: 整理发布 APK 文件
       id: release_apk
       run: |
-        TAG_NAME="v1.3.0-amap-$(date +'%Y%m%d%H%M')"
+        TAG_NAME="v1.3.1-amap-$(date +'%Y%m%d%H%M')"
         echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
         mkdir -p release_dist
         cp app/build/outputs/apk/debug/*.apk "release_dist/RadioFM-AMap.apk"
@@ -50,11 +50,11 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ steps.release_apk.outputs.tag_name }}
-        name: FM网络收音机 高德天气版 v1.3.0 (${{ steps.release_apk.outputs.tag_name }})
+        name: FM网络收音机 高德天气版 v1.3.1 (${{ steps.release_apk.outputs.tag_name }})
         body: |
           ### FM网络收音机 高德天气版 (RadioFM-AMap)
 
-          > 独立仓库版本：把天气与逆地理从 Open-Meteo / 系统 Geocoder 切换为高德地图 Web 服务 API。versionCode 9，可直接覆盖安装。
+          > 独立仓库版本：把天气与逆地理从 Open-Meteo / 系统 Geocoder 切换为高德地图 Web 服务 API。versionCode 10，applicationId 为 io.nbhg.fma，可与原版 io.nbhg.fm 共存安装、互不覆盖。
 
           - 逆地理编码：restapi.amap.com/v3/geocode/regeo，位移超过 150 米或跨区自动刷新县市名称；
           - 实时天气：restapi.amap.com/v3/weather/weatherInfo，按 adcode 查询，15 分钟刷新；
