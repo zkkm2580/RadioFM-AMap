@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/page_background">
+
+    <!-- 顶部状态与控制栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/header_background"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FM 网络收音机"
+            android:textColor="@color/header_title_text"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_current_channel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="点击下方电台开始收听"
+            android:textColor="@color/header_subtitle_text"
+            android:textSize="15sp" />
+
+        <!-- 实时时钟：原“播放 / 暂停 / 停止”按钮位置 -->
+        <TextView
+            android:id="@+id/tv_clock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="monospace"
+            android:gravity="center"
+            android:letterSpacing="0.04"
+            android:text="00:00:00"
+            android:textColor="@color/header_title_text"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
+        <!-- 实时定位县市与天气栏 -->
+        <LinearLayout
+            android:id="@+id/layout_location_weather"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="4dp">
+
+            <!-- 左侧：GPS或网络定位县市 -->
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start|center_vertical"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="正在定位..."
+                android:textColor="@color/header_subtitle_text"
+                android:textSize="18sp" />
+
+            <!-- 右侧：实时天气与温度 -->
+            <TextView
+                android:id="@+id/tv_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="end|center_vertical"
+                android:singleLine="true"
+                android:text="天气获取中..."
+                android:textColor="@color/header_subtitle_text"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 列表标题 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:text="广播电台频道"
+        android:textColor="@color/section_title_text"
+        android:textSize="13sp" />
+
+    <!-- 电台频道列表 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_channels"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
