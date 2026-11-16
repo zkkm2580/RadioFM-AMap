@@ -8,11 +8,14 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "io.nbhg.fm"
+        // 高德天气版独立 applicationId：在原版 io.nbhg.fm 基础上加 a，
+        // 使本版本可与原版 RadioFM 共存安装、不互相覆盖。
+        // namespace 仍为 io.microshow.fm，R 类与源码包引用不受影响。
+        applicationId = "io.nbhg.fma"
         minSdk = 21
         targetSdk = 34
-        versionCode = 9
-        versionName = "1.3.0-amap"
+        versionCode = 10
+        versionName = "1.3.1-amap"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
