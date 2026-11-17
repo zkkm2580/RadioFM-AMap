@@ -46,11 +46,61 @@
 
 ## 📥 下载与安装
 
-您可以直接前往仓库的 [Releases 页面](https://github.com/zkkm2580/RadioFM/releases) 下载最新编译好的 APK 安装包：
+您可以直接前往仓库的 [Releases 页面](https://github.com/zkkm2580/RadioFM-AMap/releases) 下载最新编译好的 APK 安装包：
 
-- **最新稳定版下载**：[FM网络收音机.apk](https://github.com/zkkm2580/RadioFM/releases/latest)
+- **最新版本下载**：[FM网络收音机 高德天气版.apk](https://github.com/zkkm2580/RadioFM-AMap/releases/latest)
+
+> ℹ️ 本版本 `applicationId` 为 `io.nbhg.fma`，可与原版 `io.nbhg.fm` 同时安装、互不覆盖。
 
 > ℹ️ 安装包内含 VideoLAN LibVLC 的 `armeabi-v7a` 与 `arm64-v8a` 两套 `.so` 动态库，体积较早期纯 Kotlin 版本明显增大，具体大小请以 Releases 页面显示为准。
+
+---
+
+## 🔧 Fork 后改成自己的 App（关键配置位置）
+
+本项目把**高德 Key**与**节目单地址**都集中成了常量，fork 之后只需改下面两处，再重新提交代码（GitHub Actions 会自动编译并把 APK 发布到你自己的 Releases）。
+
+### 1. 高德地图 API Key
+
+- **文件**：`app/src/main/java/io/microshow/fm/util/WeatherLocationHelper.kt`
+- **位置**：文件顶部 `companion object` 中的 `AMAP_KEY` 常量（约第 72 行）
+
+```kotlin
+/** 高德开放平台 Web 服务 Key（可在高德控制台随时重置） */
+private const val AMAP_KEY = "31f95c634777d3cf154bae9748c40d86"
+```
+
+- 替换成你自己的 Key：前往 [高德开放平台控制台](https://console.amap.com/) 注册 → 创建应用 → 添加 Key，**服务平台务必选「Web 服务」**（本项目调用的是 Web 服务 REST API，不是 Android 地图 SDK）。
+- 两个接口地址也在同一文件的常量中，一般无需改动：
+  - `AMAP_REGEO_URL` = `https://restapi.amap.com/v3/geocode/regeo`（逆地理：经纬度 → 区县名称 + adcode）
+  - `AMAP_WEATHER_URL` = `https://restapi.amap.com/v3/weather/weatherInfo`（按 adcode 查实时天气）
+- 安全建议：Key 明文写在客户端有被他人盗用的风险，可在高德控制台给这个 Key 设置**日调用量上限 / IP 白名单**。
+
+### 2. 节目单 radio.txt 地址
+
+- **文件**：`app/src/main/java/io/microshow/fm/data/RadioRepository.kt`
+- **位置**：`companion object` 中的 `RADIO_SOURCE_URL` 常量（第 12 行）
+
+```kotlin
+const val RADIO_SOURCE_URL = "http://zj.537224.xyz/radio.txt"
+```
+
+- 换成你自己的节目单 URL 即可。App 启动会异步拉取并做本地缓存，网络失败时回退到内置的 4 个预设频道（同样写在 `RadioRepository.kt` 的 `getPresetChannels()`）。
+- `radio.txt` 支持三种写法（解析逻辑见 `RadioRepository.parseChannels()`）：
+  - **两行制**：第一行频道名称，第二行播放 URL；
+  - **单行制**：`频道名称,播放URL`；
+  - **分组标签**：`#genre#` 或 `[分组名]`。
+- 播放源支持 HTTP/HTTPS 音频直链、AAC、MP3 与 HLS `.m3u8`，统一由 LibVLC 解码。
+
+### 3.（可选）改成你自己的品牌
+
+| 要改什么 | 文件位置 | 当前值 |
+| --- | --- | --- |
+| 包名（安装标识） | `app/build.gradle.kts` → `applicationId` | `io.nbhg.fma`（带 `a` 以便与原版 `io.nbhg.fm` 共存） |
+| 应用名称 | `app/src/main/res/values/strings.xml` → `app_name` | 牛排火锅 FM 网络收音机 |
+| 应用图标 | `app/src/main/res/drawable/ic_radio.xml` | 内置电台图标 |
+
+> 💡 `namespace` 请保持 `io.microshow.fm` 不变（它与源码包路径、R 类引用绑定，擅自修改会导致编译失败）；只改 `applicationId` 即可安全地改包名。
 
 ---
 
