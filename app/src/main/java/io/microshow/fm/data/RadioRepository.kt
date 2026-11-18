@@ -9,10 +9,10 @@ import kotlin.concurrent.thread
 
 object RadioRepository {
 
-    const val RADIO_SOURCE_URL = "http://zj.537224.xyz/radio1.txt"
+    const val RADIO_SOURCE_URL = "http://zj.537224.xyz/radio.txt"
 
     /**
-     * 默认内置预设频道（来源与 http://zj.537224.xyz/radio1.txt 保持一致）
+     * 默认内置预设频道（来源与 http://zj.537224.xyz/radio.txt 保持一致）
      * 注意：喜马拉雅电台的 443 端口未开放，必须使用 http 协议
      *
      * 原内置的 4 个央广台（中国之声 / 经典音乐广播 / 经济之声 / 音乐之声，
