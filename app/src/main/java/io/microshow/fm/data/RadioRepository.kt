@@ -9,7 +9,7 @@ import kotlin.concurrent.thread
 
 object RadioRepository {
 
-    const val RADIO_SOURCE_URL = "http://zj.537224.xyz/radio1.txt"
+    const val RADIO_SOURCE_URL = "http://zj.537224.xyz/radio.txt"
 
     /**
      * 默认内置预设频道（来源与 http://zj.537224.xyz/radio.txt 保持一致）
